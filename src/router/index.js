@@ -1,24 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import User from './user'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: () => import(/* webpackChunkName: "layout-index" */ '../components/layout/index.vue'),
-    children: [
-      {
-        path: '/about',
-        name: 'About',
-        component: () => import(/* webpackChunkName: "about-index" */ '../views/about.vue')
-      }
-    ]
-  }
+    name: 'Login',
+    component: () => import(/* webpackChunkName: "login" */ '../views/login/index.vue')
+  },
+  User
 ]
 
 const router = new VueRouter({
+  mode: 'history',
   routes
 })
 

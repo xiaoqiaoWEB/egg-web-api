@@ -11,7 +11,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scope="this api replaced by slot-scope in 2.5.0+">
 body{
   padding: 0;
   margin: 0;
@@ -22,8 +22,8 @@ body{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 .el-header,
 .el-footer {
@@ -37,7 +37,7 @@ body{
   background-color: #d3dce6;
   color: #333;
   text-align: center;
-  height: calc(100vh - 56px);
+  // height: calc(100vh - 56px);
 }
 .container{
   background-color: rgba(0, 0, 0, 0.05) !important;
@@ -48,8 +48,8 @@ body{
   text-align: center;
   margin: 10px !important;
   padding: 15px !important;
-  height: calc(100vh - 56px);
-  width: calc(100vw - 200px);
+  //height: calc(100vh - 56px);
+  //width: calc(100vw - 200px);
 }
 
 </style>

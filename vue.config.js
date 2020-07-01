@@ -13,16 +13,17 @@ module.exports = {
     config.resolve.alias
       .set('@', resolve('src'))
       .set('components', resolve('src/components'))
+      .set('views', resolve('src/views'))
   },
   devServer: {
     port: 8888,
     proxy: {
-      '/api': {
-        target: 'http://app.api.com',
+      '/admin': {
+        target: 'http://127.0.0.1:7001',
         changeOrigin: true,
         secure: false,
         pathRewrite: {
-          '^/api': '/api'
+          '^/admin': '/admin'
         }
       }
     }
