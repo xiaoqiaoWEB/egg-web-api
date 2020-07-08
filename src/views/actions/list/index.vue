@@ -4,10 +4,10 @@
       <div style="text-align: right;">
         <el-form :inline="true" :model="formData" class="demo-form-inline" size="small">
           <el-form-item >
-            <el-input v-model="formData.username" placeholder="用户" clearable></el-input>
+            <el-input v-model="formData.action_name" placeholder="权限名称" clearable></el-input>
           </el-form-item>
           <el-form-item>
-            <el-select v-model="formData.status" placeholder="用户状态" clearable>
+            <el-select v-model="formData.status" placeholder="权限状态" clearable>
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -20,7 +20,7 @@
             <el-button type="primary" @click="onSubmit">查询</el-button>
           </el-form-item>
           <el-form-item style="float: left;">
-            <el-button @click="addAdmin">添加用户</el-button>
+            <el-button @click="addAdmin">添加权限</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -34,16 +34,19 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="username" label="用户名"></el-table-column>
-        <el-table-column prop="role_id" label="用户角色">
+        <el-table-column prop="action_name" label="权限名称"></el-table-column>
+        <el-table-column prop="action_code" label="权限编码"></el-table-column>
+        <el-table-column prop="url" label="URL地址"></el-table-column>
+        <el-table-column prop="menu_id" label="菜单名称">
           <template slot-scope="scope">
-            <span>
-              {{scope.row.role_id ? scope.row.role_id.title : ''}}
-            </span>
+            <span>{{scope.row.menu_id ? scope.row.menu_id.menu_name  : ''}} </span>
           </template>
         </el-table-column>
-        <el-table-column prop="mobile" label="手机号码"></el-table-column>
-        <el-table-column prop="email" label="邮箱"></el-table-column>
+        <el-table-column prop="added_by" label="添加者">
+          <template slot-scope="scope">
+            <span>{{scope.row.added_by ? scope.row.added_by.username  : ''}} </span>
+          </template>
+        </el-table-column>
         <el-table-column prop="status" label="状态">
           <template slot-scope="scope">
             <span :style="{'color': scope.row.status === 1 ? '' : 'red'}">
@@ -64,23 +67,23 @@
     <div style="padding-top: 30px;">
       <PagePanel ref="pagePanel" :url="pageUrl.pageUrl" :queryData="formData" @on-query="queryCallBack"></PagePanel>
     </div>
-    <!-- 添加编辑 -->
+    <!-- add edit -->
     <AddEdit ref="addEdit" :title="title" @success="success"></AddEdit>
   </el-card>
 </template>
 
 <script>
+import AddEdit from '../add-edit/index.vue'
 import PagePanel from '../../../components/pagination/index.vue'
-import AddEdit from '../../user/add-edit/index.vue'
 export default {
   data () {
     return {
       tableData: [],
       formData: {},
       pageUrl: {
-        pageUrl: '/admin/user/list'
+        pageUrl: '/admin/action/list'
       },
-      title: '编辑管理员',
+      title: '添加权限',
       options: [
         { value: 1, label: '启用' },
         { value: 2, label: '禁用' }
@@ -102,20 +105,20 @@ export default {
       this.$refs.pagePanel.queryLisWithPage()
     },
     editUser (id) {
-      this.title = '编辑管理员'
+      this.title = '编辑权限'
       this.$refs.addEdit.open({
         type: 'edit',
         id
       })
     },
     addAdmin () {
-      this.title = '编辑管理员'
+      this.title = '添加权限'
       this.$refs.addEdit.open({
         type: 'add'
       })
     },
     removeUser (id) {
-      this.$confirm('此操作将永久删除该用户, 是否继续?', '删除用户', {
+      this.$confirm('此操作将永久删除该角色, 是否继续?', '删除角色', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -132,7 +135,7 @@ export default {
     },
     deleteUser (id) {
       this.ajax({
-        url: `/admin/user/${id}`,
+        url: `/admin/role/${id}`,
         type: 'delete',
         success: res => {
           if (res.code === 200) {

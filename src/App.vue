@@ -27,16 +27,18 @@ body{
 }
 .el-header,
 .el-footer {
-  background-color: #b3c0d1;
-  color: #333;
-  text-align: center;
+  background-color: #053a8f;
+  color: #ffffff;
+  //text-align: center;
   line-height: 56px;
+  text-align: left;
 }
 
 .el-aside {
-  background-color: #d3dce6;
-  color: #333;
-  text-align: center;
+  background-color: #07275b;
+  color: #ffffff;
+  text-align: left;
+  // text-align: center;
   // height: calc(100vh - 56px);
 }
 .container{

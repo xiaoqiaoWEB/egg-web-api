@@ -4,7 +4,7 @@
       <div style="text-align: right;">
         <el-form :inline="true" :model="formData" class="demo-form-inline" size="small">
           <el-form-item >
-            <el-input v-model="formData.username" placeholder="用户" clearable></el-input>
+            <el-input v-model="formData.title" placeholder="角色名称" clearable></el-input>
           </el-form-item>
           <el-form-item>
             <el-select v-model="formData.status" placeholder="用户状态" clearable>
@@ -20,7 +20,7 @@
             <el-button type="primary" @click="onSubmit">查询</el-button>
           </el-form-item>
           <el-form-item style="float: left;">
-            <el-button @click="addAdmin">添加用户</el-button>
+            <el-button @click="addAdmin">添加角色</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -34,16 +34,13 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="username" label="用户名"></el-table-column>
-        <el-table-column prop="role_id" label="用户角色">
+        <el-table-column prop="title" label="角色名称"></el-table-column>
+        <el-table-column prop="description" label="角色简介"></el-table-column>
+        <el-table-column prop="added_by" label="添加者">
           <template slot-scope="scope">
-            <span>
-              {{scope.row.role_id ? scope.row.role_id.title : ''}}
-            </span>
+            <span>{{scope.row.added_by ? scope.row.added_by.username  : ''}} </span>
           </template>
         </el-table-column>
-        <el-table-column prop="mobile" label="手机号码"></el-table-column>
-        <el-table-column prop="email" label="邮箱"></el-table-column>
         <el-table-column prop="status" label="状态">
           <template slot-scope="scope">
             <span :style="{'color': scope.row.status === 1 ? '' : 'red'}">
@@ -51,10 +48,12 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="300px">
           <template slot-scope="scope">
             <div>
-              <el-button type="success" plain @click="editUser(scope.row._id)" size="mini">编辑</el-button>
+              <el-button type="primary" plain @click="accwssMenu(scope.row._id)" size="mini">菜单</el-button>
+               <el-button type="success" plain @click="editUser(scope.row._id)" size="mini">权限</el-button>
+              <el-button type="info" plain @click="editUser(scope.row._id)" size="mini">编辑</el-button>
               <el-button type="danger" plain @click="removeUser(scope.row._id)" size="mini" slot="reference">删除</el-button>
             </div>
           </template>
@@ -66,19 +65,22 @@
     </div>
     <!-- 添加编辑 -->
     <AddEdit ref="addEdit" :title="title" @success="success"></AddEdit>
+    <!-- role access -->
+    <AccessMenu ref="accessMenu" :title="title" @success="success"></AccessMenu>
   </el-card>
 </template>
 
 <script>
 import PagePanel from '../../../components/pagination/index.vue'
-import AddEdit from '../../user/add-edit/index.vue'
+import AddEdit from '../../role/add-edit/index.vue'
+import AccessMenu from '../../role/menu/index.vue'
 export default {
   data () {
     return {
       tableData: [],
       formData: {},
       pageUrl: {
-        pageUrl: '/admin/user/list'
+        pageUrl: '/admin/role/list'
       },
       title: '编辑管理员',
       options: [
@@ -89,7 +91,8 @@ export default {
   },
   components: {
     PagePanel,
-    AddEdit
+    AddEdit,
+    AccessMenu
   },
   methods: {
     queryCallBack (res) {
@@ -115,7 +118,7 @@ export default {
       })
     },
     removeUser (id) {
-      this.$confirm('此操作将永久删除该用户, 是否继续?', '删除用户', {
+      this.$confirm('此操作将永久删除该角色, 是否继续?', '删除角色', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -132,7 +135,7 @@ export default {
     },
     deleteUser (id) {
       this.ajax({
-        url: `/admin/user/${id}`,
+        url: `/admin/role/${id}`,
         type: 'delete',
         success: res => {
           if (res.code === 200) {
@@ -140,6 +143,13 @@ export default {
             this.success()
           }
         }
+      })
+    },
+    accwssMenu (id) {
+      this.title = '授权菜单'
+      this.$refs.accessMenu.open({
+        type: 'menu',
+        id
       })
     }
   }

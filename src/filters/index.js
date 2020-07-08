@@ -1,12 +1,11 @@
-exports.getName = (v) => {
-  alert(v)
+exports.getUserStatus = (v) => {
   let name = ''
   switch (v) {
     case 1:
-      name = 'A'
+      name = '启用'
       break
-    case 2:
-      name = 'A'
+    case 0:
+      name = '禁用'
       break
     default:
       break

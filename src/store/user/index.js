@@ -39,7 +39,7 @@ const mutations = {
   },
   updateAuthToken (state, authToken) {
     state.authToken = authToken
-    var expires = state.authToken.expires_in.split('m')[0] * 1000 / 60 / 60 / 24
+    var expires = state.authToken.expires_in.split('m')[0] / 60 / 24
     var isRememberMe = !!Cookie.get(enums.USER.REMEMBER_ME)
     if (isRememberMe) {
       expires = 7

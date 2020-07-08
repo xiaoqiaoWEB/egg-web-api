@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import User from './user'
+import System from './system'
 
 Vue.use(VueRouter)
 
@@ -10,7 +10,7 @@ const routes = [
     name: 'Login',
     component: () => import(/* webpackChunkName: "login" */ '../views/login/index.vue')
   },
-  User
+  System
 ]
 
 const router = new VueRouter({

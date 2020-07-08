@@ -18,7 +18,7 @@ export default {
     return {
       total: 0,
       pageNum: 1,
-      pageSize: 5,
+      pageSize: 10,
       pageSizes: [5, 10, 15]
     }
   },
@@ -51,22 +51,21 @@ export default {
       this.queryLisWithPage()
     },
     queryLisWithPage () {
-      let param = {}
+      var param = {}
       param.page = this.pageNum
       param.pre_page = this.pageSize
       Object.assign(param, this.queryData)
 
-      var url = this.url + '?'
-      if (this.type === 'get') {
-        for (var attr in param) {
-          url += attr + '=' + param[attr] + '&'
-        }
-        param = {}
-      }
+      // var url = this.url + '?'
+      // if (this.type === 'get') {
+      //   for (var attr in param) {
+      //     url += attr + '=' + param[attr] + '&'
+      //   }
+      //   param = {}
+      // }
 
       this.ajax({
-        url: this.type === 'get' ? url : this.url,
-        type: this.type,
+        url: this.url,
         data: param,
         success: res => {
           this.pageNum = res.data.page

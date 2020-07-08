@@ -78,7 +78,7 @@ router.beforeEach((to, from, next) => {
 
   if (authToken && authToken.access_token) {
     if (to.name === 'Login') {
-      window.location.href = 'http://localhost:8888/user/list'
+      window.location.href = 'http://localhost:8888/system/user/list'
     }
     updateUserMenu()
   } else {
